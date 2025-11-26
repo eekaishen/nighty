@@ -5,145 +5,149 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Nightly Reflection</title>
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
 <style>
-  :root {
-    --vh: 1vh;
-    --radius: 18px;
-    --shadow: 0 12px 32px rgba(0,0,0,0.1);
-  }
+:root {
+  --vh: 1vh;
+  --radius: 18px;
+  --shadow: 0 12px 28px rgba(0,0,0,0.10);
+}
 
-  body {
-    margin: 0;
-    padding:
-      env(safe-area-inset-top)
-      env(safe-area-inset-right)
-      env(safe-area-inset-bottom)
-      env(safe-area-inset-left);
-    background: #f4f6fb;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-    color: #111;
-    display: flex;
-    justify-content: center;
-    min-height: calc(var(--vh) * 100);
-    overflow-x: hidden; /* ⭐ 防止右侧溢出 */
-  }
+/* Avoid overflow */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background: #f4f6fb;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+}
 
-  .app {
-    width: 100%;
-    max-width: 680px;
-    box-sizing: border-box; /* ⭐ 防止 padding 撑破宽度 */
-    margin-top: 20px;
-    background: #fff;
-    border-radius: 24px;
-    padding: 26px 22px 40px;
-    box-shadow: var(--shadow);
-  }
+/* iPhone safe-area */
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+  min-height: calc(var(--vh) * 100);
+  display: flex;
+  justify-content: center;
+}
 
-  h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 700;
-  }
+/* Main card */
+.app {
+  width: 100%;
+  max-width: 660px;
+  background: #fff;
+  border-radius: 26px;
+  padding: 28px 22px 36px;
+  box-sizing: border-box;
+  box-shadow: var(--shadow);
+}
 
-  .subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 24px;
-  }
+/* Header */
+h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
 
-  h3 {
-    margin: 20px 0 8px;
-    font-size: 15px;
-    font-weight: 600;
-  }
+.subtitle {
+  margin: 6px 0 20px;
+  font-size: 14px;
+  color: #6b7280;
+}
 
-  textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 14px;
-    border-radius: var(--radius);
-    border: 1px solid #d1d5db;
-    resize: vertical;
-    font-size: 15px;
-    outline: none;
-    background: #fafafa;
-    transition: 0.2s;
-    box-sizing: border-box; /* ⭐ 防止 textarea 溢出 */
-  }
+/* Titles */
+h3 {
+  margin: 20px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
 
-  textarea:focus {
-    border-color: #60a5fa;
-    background: #fff;
-    box-shadow: 0 0 0 2px rgba(96,165,250,0.25);
-  }
+/* Textareas */
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1px solid #d1d5db;
+  background: #fafafa;
+  font-size: 15px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+textarea:focus {
+  border-color: #3b82f6;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
+  outline: none;
+}
 
-  .btn {
-    width: 100%;
-    padding: 15px;
-    border-radius: 999px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 16px;
-    border: none;
-    box-sizing: border-box;
-  }
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 15px;
+  margin-top: 16px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
 
-  .primary {
-    background: linear-gradient(90deg, #60a5fa, #3b82f6);
-    color: #fff;
-    box-shadow: 0 6px 20px rgba(96,165,250,0.35);
-  }
+.primary {
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(96,165,250,0.4);
+}
+.primary:active {
+  transform: scale(.98);
+}
 
-  .secondary {
-    background: #fff;
-    border: 1px solid #ddd;
-    color: #333;
-  }
+.secondary {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+}
+.secondary:active {
+  transform: scale(.98);
+}
 
-  .helper {
-    margin-top: 12px;
-    font-size: 13px;
-    color: #888;
-  }
+.helper {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #888;
+}
 
-  /* 历史记录卡片 */
-  .log-item {
-    background: #f9fafb;
-    border: 1px solid #eee;
-    padding: 14px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    margin-bottom: 12px;
-    line-height: 1.5;
-    box-sizing: border-box;
-  }
+/* Log list */
+.log-item {
+  background: #f9fafb;
+  border: 1px solid #eee;
+  padding: 14px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
 
-  .log-item b {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-  }
-
-  .log-actions button {
-    margin-top: 8px;
-    padding: 6px 12px;
-    font-size: 12px;
-    border-radius: 999px;
-    border: 1px solid #ccc;
-    background: #fff;
-    cursor: pointer;
-  }
+.log-actions button {
+  padding: 6px 12px;
+  margin-top: 10px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  background: #fff;
+  cursor: pointer;
+}
 </style>
 
 <script>
-// ===== iPhone 100vh Fix =====
+// Fix 100vh iPhone
 function fixVH() {
   document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
 }
@@ -151,8 +155,8 @@ window.addEventListener("resize", fixVH);
 window.addEventListener("orientationchange", fixVH);
 fixVH();
 </script>
-</head>
 
+</head>
 <body>
 
 <div class="app">
@@ -178,15 +182,12 @@ fixVH();
 </div>
 
 <script>
-// =====================================
 // CONFIG
-// =====================================
 const STORAGE_KEY = "nightLogs";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec";
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec";
 
-// =====================================
-// Local Storage
-// =====================================
+// Storage
 function getLogs() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
   catch { return []; }
@@ -195,9 +196,7 @@ function setLogs(list) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
-// =====================================
-// Render Logs
-// =====================================
+// Render logs
 function renderLogs() {
   const logs = getLogs();
   const box = document.getElementById("logList");
@@ -219,10 +218,9 @@ function renderLogs() {
   });
 }
 
-// =====================================
-// Edit
-// =====================================
 let editingIndex = null;
+
+// Edit
 function editLog(i) {
   const logs = getLogs();
   const x = logs[i];
@@ -232,12 +230,10 @@ function editLog(i) {
   block.value = x.block;
   action.value = x.action;
 
-  statusText.textContent = "正在编辑，修改后点击“记录今天”保存";
+  statusText.textContent = "正在编辑，修改后点击「记录今天」保存";
 }
 
-// =====================================
-// SAVE
-// =====================================
+// Save
 async function save() {
   const highlight = document.getElementById("highlight").value.trim();
   const block = document.getElementById("block").value.trim();
@@ -249,7 +245,6 @@ async function save() {
 
   let logs = getLogs();
 
-  // ---- edit mode ----
   if (editingIndex !== null) {
     logs[editingIndex] = { ...logs[editingIndex], highlight, block, action };
     setLogs(logs);
@@ -259,7 +254,6 @@ async function save() {
     return;
   }
 
-  // ---- new record ----
   const date = new Date().toISOString().slice(0,10);
   logs.unshift({ date, highlight, block, action });
   setLogs(logs);
@@ -280,52 +274,38 @@ async function save() {
   }
 }
 
-// =====================================
-// ANALYZE → Kai GPT
-// =====================================
+// GPT analyze
 function analyze() {
   const logs = getLogs();
-  if (!logs.length) {
-    alert("还没有记录");
-    return;
-  }
+  if (!logs.length) return alert("你还没有反思记录");
 
-  const recent = logs
-    .slice(0, 7)
-    .map(l => `日期：${l.date}\n亮点：${l.highlight}\n卡点：${l.block}\n明天的小动作：${l.action}`)
+  const recent = logs.slice(0,7)
+    .map(l => `日期：${l.date}\n亮点：${l.highlight}\n卡点：${l.block}\n动作：${l.action}`)
     .join("\n\n");
 
   const prompt =
-`以下是我最近的 Nightly Reflection（已从 PWA 获取）：
+`以下是我最近 7 天的 Nightly Reflection，请帮我做 CEO 风格的三句话总结：
 
 ${recent}
 
-请你作为「Kai Nightly Reflection Analyzer」GPT，输出：
-
-1. CEO 一句话总结（最重要）
-2. 今天最重要的亮点
-3. 今天真正的卡点意义（深层）
-4. 过去一周的模式总结（高管式）
-5. 明天我应该做的一件事（一个动作）
-6. 一句成熟、稳定、轻柔的 encouragement`;
+1. 今天一句话总结  
+2. 这周趋势一句话  
+3. 明天一句话建议  
+`;
 
   navigator.clipboard.writeText(prompt)
     .then(() => {
-      alert("内容已复制，即将打开 Kai GPT 分析。");
+      alert("总结已复制，即将跳转到 Kai Nightly Reflection GPT");
       window.location.href = "https://chatgpt.com/g/g-6926c2b7d6f08191bcc7c822996bd7c8-kai-nightly-reflection-analyzer";
     });
 }
 
-// =====================================
-// Event Listeners
-// =====================================
+// Event
 saveBtn.onclick = save;
 analyzeBtn.onclick = analyze;
 renderLogs();
 
-// =====================================
-// PWA Service Worker
-// =====================================
+// PWA service worker
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js");
 }
