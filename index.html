@@ -2,6 +2,40 @@
 <html lang="zh">
 <head>
 
+  <!-- iPhone 16 / iOS 优化 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<style>
+  /* 避免 iPhone 下方空白 */
+  body, html {
+    height: 100%;
+    margin: 0;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* iPhone Safari 100vh 修复 */
+  :root {
+    --vh: 1vh;
+  }
+  @supports (-webkit-touch-callout: none) {
+    .app {
+      min-height: calc(var(--vh, 1vh) * 100);
+    }
+  }
+</style>
+
+<script>
+  // 修复 iPhone 的 100vh
+  function fixVH() {
+    document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
+  }
+  window.addEventListener("resize", fixVH);
+  window.addEventListener("orientationchange", fixVH);
+  fixVH();
+</script>
+
   <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
