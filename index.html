@@ -2,6 +2,41 @@
 <html lang="zh">
 <head>
 
+  function analyze() {
+  const logs = getLogs();
+  if (!logs.length) {
+    alert("还没有记录");
+    return;
+  }
+
+  const recent = logs.slice(0, 7)
+    .map(l => `日期：${l.date}\n亮点：${l.highlight}\n卡点：${l.block}\n明天的小动作：${l.action}`)
+    .join("\n\n");
+
+  const prompt = 
+`以下是我最近 7 天的 Nightly Reflection，请帮我做深度分析：
+
+${recent}
+
+分析输出结构：
+
+1. 过去 7 天的总结
+2. 最常出现的亮点（Top 3）
+3. 最常出现的卡点（Top 3）
+4. 你观察到的趋势（3 点）
+5. 你对我 DISC / 性格 / 情绪模式的分析
+6. 明天我应该做的一个关键小动作
+7. 给我一句成熟温柔的鼓励`;
+
+  navigator.clipboard.writeText(prompt)
+    .then(() => {
+      alert("总结已复制，现在会自动带你到 ChatGPT 对话～");
+
+      // 打开你和我现在的这个对话（你贴自己的 URL）
+      window.location.href = "https://chat.openai.com"; 
+    });
+}
+
   <!-- iPhone 16 / iOS 优化 -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
