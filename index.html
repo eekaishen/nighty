@@ -2,174 +2,143 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nightly Reflection · Kai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nightly Reflection</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
   <style>
     body {
       margin: 0;
+      background: #f4f6fb;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-      background: #f5f7fb;
-      color: #111827;
-    }
-    .shell {
-      min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 32px 16px;
+      padding: 30px 16px;
+      color: #111;
     }
     .app {
       width: 100%;
-      max-width: 640px;
-      background: #ffffff;
-      border-radius: 28px;
-      padding: 24px 20px 28px;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
-      border: 1px solid #e5e7eb;
+      max-width: 650px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
     }
     h1 {
-      margin: 0 0 4px;
+      margin: 0 0 10px;
       font-size: 22px;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     .subtitle {
       font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 18px;
+      color: #666;
+      margin-bottom: 20px;
     }
     h3 {
-      margin: 14px 0 4px;
+      margin: 16px 0 8px;
       font-size: 14px;
       font-weight: 600;
-      color: #111827;
     }
     textarea {
       width: 100%;
-      box-sizing: border-box;
       min-height: 70px;
-      border-radius: 16px;
+      padding: 12px;
+      border-radius: 12px;
       border: 1px solid #d1d5db;
-      padding: 10px 12px;
-      font-size: 14px;
       resize: vertical;
+      font-size: 14px;
       outline: none;
-      background: #ffffff;
     }
     textarea:focus {
       border-color: #60a5fa;
-      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
+      box-shadow: 0 0 0 1px rgba(96,165,250,0.4);
     }
-    button.primary {
+    button {
       width: 100%;
-      margin-top: 20px;
-      padding: 13px 16px;
+      padding: 14px;
       border-radius: 999px;
       border: none;
-      background: linear-gradient(90deg,#60a5fa,#3b82f6);
-      color: #ffffff;
+      margin-top: 14px;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
     }
-    button.secondary {
-      width: 100%;
-      margin-top: 10px;
-      padding: 11px 16px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      background: #ffffff;
-      color: #374151;
-      font-size: 14px;
-      cursor: pointer;
+    .primary {
+      background: linear-gradient(90deg, #60a5fa, #3b82f6);
+      color: white;
+      box-shadow: 0 5px 20px rgba(99,102,241,0.4);
     }
-    .section-title {
-      margin-top: 26px;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .log-list {
-      margin-top: 10px;
-      max-height: 260px;
-      overflow-y: auto;
-    }
-    .log-item {
-      padding: 11px 12px;
-      border-radius: 18px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-    .log-date {
-      font-size: 12px;
-      font-weight: 600;
-      color: #111827;
-      margin-bottom: 4px;
-    }
-    .log-line { margin: 1px 0; }
-    .log-actions {
-      margin-top: 6px;
-      display: flex;
-      gap: 8px;
-    }
-    .mini-btn {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
-      font-size: 11px;
-      cursor: pointer;
+    .secondary {
+      background: #fff;
+      border: 1px solid #ddd;
+      color: #333;
     }
     .helper {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #888;
+    }
+    .log-item {
+      background: #f9fafb;
+      border: 1px solid #eee;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .log-actions button {
       margin-top: 6px;
+      padding: 5px 10px;
       font-size: 11px;
-      color: #9ca3af;
+      border-radius: 999px;
+      border: 1px solid #ccc;
+      background: #fff;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
-<div class="shell">
-  <div class="app">
-    <h1>✨ Nightly Reflection</h1>
-    <div class="subtitle">白色极简 · 睡前 1 分钟，把今天收好，明天轻一点。</div>
 
-    <h3>1. 今天的亮点（不需要很大）</h3>
-    <textarea id="highlight" placeholder="今天有什么值得被记住的一瞬间？"></textarea>
+<div class="app">
+  <h1>✨ Nightly Reflection</h1>
+  <div class="subtitle">睡前 1 分钟，把今天收好，明天轻一点。</div>
 
-    <h3>2. 今天的卡点（一句话）</h3>
-    <textarea id="block" placeholder="哪里让你卡住 / 不舒服 / 犹豫了一下？ "></textarea>
+  <h3>1. 今天的亮点</h3>
+  <textarea id="highlight" placeholder="写一点点就可以"></textarea>
 
-    <h3>3. 明天的一个小动作（1 分钟内能完成）</h3>
-    <textarea id="action" placeholder="明天只要做这一点点，就算对自己有交代。"></textarea>
+  <h3>2. 今天的卡点</h3>
+  <textarea id="block" placeholder="是什么让你卡住？"></textarea>
 
-    <button class="primary" id="saveBtn">记录今天的反思</button>
-    <button class="secondary" id="analyzeBtn">✨ 一键分析最近 7 天</button>
+  <h3>3. 明天的小动作</h3>
+  <textarea id="action" placeholder="明天做一件很小的事"></textarea>
 
-    <div class="helper" id="statusText"></div>
+  <button class="primary" id="saveBtn">记录今天的反思</button>
+  <button class="secondary" id="analyzeBtn">✨ 一键分析最近 7 天</button>
 
-    <div class="section-title">历史记录</div>
-    <div id="logList" class="log-list"></div>
-  </div>
+  <div class="helper" id="statusText"></div>
+
+  <h3 style="margin-top:24px;">历史记录</h3>
+  <div id="logList"></div>
 </div>
 
+
 <script>
-// =======================================================
-// Kai · Nightly Reflection App
-// =======================================================
+// ================================
+// CONFIG
+// ================================
+const STORAGE_KEY = "nightLogs";
 
-const STORAGE_KEY = 'nightLogs';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec';
+// <<<< YOUR SHEET API >>>>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec";
 
-let editingIndex = null;
-
-// ----- LocalStorage -----
+// ================================
+// LocalStorage Functions
+// ================================
 function getLogs() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
   catch { return []; }
 }
 
@@ -177,70 +146,66 @@ function setLogs(list) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
-// ----- Render Logs -----
+// ================================
+// Render Logs
+// ================================
 function renderLogs() {
   const logs = getLogs();
-  const box = document.getElementById('logList');
-  box.innerHTML = '';
+  const box = document.getElementById("logList");
+  box.innerHTML = "";
 
-  if (!logs.length) {
-    box.innerHTML = '<div style="font-size:12px;color:#9ca3af;">还没有记录，今晚可以从第一条开始。</div>';
-    return;
-  }
-
-  logs.forEach((l, idx) => {
-    const div = document.createElement('div');
-    div.className = 'log-item';
-    div.innerHTML = `
-      <div class="log-date">${l.date}</div>
-      <div class="log-line">🌟 亮点：${l.highlight || '—'}</div>
-      <div class="log-line">🔎 卡点：${l.block || '—'}</div>
-      <div class="log-line">▶️ 明天动作：${l.action || '—'}</div>
+  logs.forEach((l, i) => {
+    const item = document.createElement("div");
+    item.className = "log-item";
+    item.innerHTML = `
+      <div><b>${l.date}</b></div>
+      🌟 ${l.highlight || "—"}<br>
+      🔎 ${l.block || "—"}<br>
+      ▶️ ${l.action || "—"}<br>
       <div class="log-actions">
-        <button class="mini-btn" onclick="editLog(${idx})">编辑</button>
+        <button onclick="editLog(${i})">编辑</button>
       </div>
     `;
-    box.appendChild(div);
+    box.appendChild(item);
   });
 }
 
-// ----- Clear Inputs -----
-function clearInputs() {
-  document.getElementById('highlight').value = '';
-  document.getElementById('block').value = '';
-  document.getElementById('action').value = '';
-}
+// ================================
+// Edit
+// ================================
+let editingIndex = null;
 
-// ----- Edit Mode -----
-function editLog(index) {
+function editLog(i) {
   const logs = getLogs();
-  const item = logs[index];
-  if (!item) return;
+  const x = logs[i];
+  if (!x) return;
+  editingIndex = i;
 
-  editingIndex = index;
-  document.getElementById('highlight').value = item.highlight;
-  document.getElementById('block').value = item.block;
-  document.getElementById('action').value = item.action;
+  document.getElementById("highlight").value = x.highlight;
+  document.getElementById("block").value = x.block;
+  document.getElementById("action").value = x.action;
 
-  document.getElementById('statusText').textContent =
-    '正在编辑这一天，修改后点击“记录今天的反思”保存。';
+  document.getElementById("statusText").textContent =
+    "正在编辑，修改后再按「记录」即可";
 }
 
-// ----- Save -----
+// ================================
+// SAVE (Local + Google Sheet)
+// ================================
 async function save() {
-  const highlight = document.getElementById('highlight').value.trim();
-  const block = document.getElementById('block').value.trim();
-  const action = document.getElementById('action').value.trim();
-  const status = document.getElementById('statusText');
+  const highlight = document.getElementById("highlight").value.trim();
+  const block = document.getElementById("block").value.trim();
+  const action = document.getElementById("action").value.trim();
+  const status = document.getElementById("statusText");
 
   if (!highlight && !block && !action) {
-    alert('至少写一点点喔！');
+    alert("至少写一点点喔！");
     return;
   }
 
-  const logs = getLogs();
+  let logs = getLogs();
 
-  // --- Editing ---
+  // ---- edit mode ----
   if (editingIndex !== null) {
     logs[editingIndex].highlight = highlight;
     logs[editingIndex].block = block;
@@ -248,77 +213,63 @@ async function save() {
 
     setLogs(logs);
     renderLogs();
-    clearInputs();
-    status.textContent = '已更新（本地）。如要同步至 Sheet，请新增一条记录。';
-
     editingIndex = null;
+    status.textContent = "已更新（本地）。如需同步，只需新增一条记录。";
     return;
   }
 
-  // --- New Entry ---
+  // ---- new record ----
   const date = new Date().toISOString().slice(0, 10);
   logs.unshift({ date, highlight, block, action });
   setLogs(logs);
-
   renderLogs();
-  clearInputs();
 
-  // --- Sync to Google Sheet ---
-  status.textContent = '正在同步到 Google Sheet…';
+  status.textContent = "已记录（本地），正在同步到 Google Sheet…";
 
+  // ---- GOOGLE SHEET SYNC ----
   try {
     await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',     // ⭐⭐⭐ 必须添加的跨域解决方案 ⭐⭐⭐
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      mode: "no-cors", // ⭐ 必须有这个
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date, highlight, block, action })
     });
 
-    status.textContent = '已记录并同步（后台处理）✅';
-
+    status.textContent = "已同步到 Google Sheet ✅（后台完成）";
   } catch (err) {
-    console.error('同步失败', err);
-    status.textContent = '已在本地保存，但同步失败（可稍后重试）';
+    console.error(err);
+    status.textContent = "同步失败，但本地已保存。";
   }
 }
 
-// ----- AI-like Analysis -----
+// ================================
+// ANALYZE (Local version)
+// ================================
 function analyze() {
   const logs = getLogs();
-  if (!logs.length) {
-    alert('还没有任何记录可以分析。');
-    return;
-  }
+  if (!logs.length) return alert("还没有记录");
 
-  const recent = logs.slice(0, 7);
-  const highlights = recent.map(l => l.highlight).filter(Boolean);
-  const blocks = recent.map(l => l.block).filter(Boolean);
-  const today = recent[0];
+  const last7 = logs.slice(0,7);
+  let output = `✨ 最近 ${last7.length} 天你都有在记录：\n\n`;
 
-  let output = `✨ 最近 ${recent.length} 天，你持续在记录。\n\n`;
-
-  if (highlights.length) {
-    output += `🌟 常出现的亮点：\n- ${highlights.slice(0, 3).join('\n- ')}\n\n`;
-  }
-
-  if (blocks.length) {
-    output += `🔎 常出现的卡点：\n- ${blocks.slice(0, 3).join('\n- ')}\n\n`;
-  }
-
-  if (today) {
-    output += `💡 今天：\n亮点：${today.highlight}\n卡点：${today.block}\n明天动作：${today.action}\n\n`;
-  }
-
-  output += `🧭 明天建议：\n- 延续一个让你舒服的小动作\n- 对一个卡点“只推进 1 公分”`;
+  output += last7.map(x => `■ ${x.date}\n亮点：${x.highlight}\n卡点：${x.block}\n动作：${x.action}\n`).join("\n");
 
   alert(output);
 }
 
-// ----- Init -----
-document.getElementById('saveBtn').addEventListener('click', save);
-document.getElementById('analyzeBtn').addEventListener('click', analyze);
-
+// ================================
+// EVENT
+// ================================
+document.getElementById("saveBtn").onclick = save;
+document.getElementById("analyzeBtn").onclick = analyze;
 renderLogs();
+
+// ================================
+// REGISTER SERVICE WORKER for PWA
+// ================================
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
 </script>
 
 </body>
