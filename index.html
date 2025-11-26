@@ -12,155 +12,138 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
 <style>
-/* ============ iPhone Safe Area 修复 ============ */
-:root {
-  --vh: 1vh;
-  --radius: 18px;
-  --card-shadow: 0 6px 20px rgba(0,0,0,0.06);
-  --blue: #3b82f6;
-  --blue-light: #60a5fa;
-}
-
-/* 修复 iPhone Safari 100vh 问题 */
-body {
-  margin: 0;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-           env(safe-area-inset-bottom) env(safe-area-inset-left);
-  background: #f3f4f6;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-  color: #111;
-  display: flex;
-  justify-content: center;
-  min-height: calc(var(--vh) * 100);
-}
-
-/* ============ 卡片容器 ============ */
-.app {
-  width: 100%;
-  max-width: 680px;
-  margin-top: 18px;
-  
-  background: #ffffff;
-  border-radius: 28px;
-  padding: 32px 26px 40px;
-  box-shadow: var(--card-shadow);
-}
-
-/* ============ 标题区 ============ */
-h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.subtitle {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #6b7280;
-  line-height: 1.4;
-}
-
-/* ============ Section 标题 ============ */
-.section-title {
-  margin-top: 28px;
-  margin-bottom: 6px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-/* ============ 输入框 ============ */
-textarea {
-  width: 100%;
-  min-height: 92px;
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: 1px solid #e5e7eb;
-  resize: vertical;
-  font-size: 15px;
-  background: #fafafa;
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-textarea:focus {
-  border-color: var(--blue-light);
-  background: #fff;
-  box-shadow: 0 0 0 2px rgba(96,165,250,0.25);
-}
-
-/* ============ Buttons ============ */
-.btn {
-  width: 100%;
-  padding: 16px;
-  border-radius: 30px;
-  font-size: 17px;
-  font-weight: 600;
-  border: none;
-  margin-top: 18px;
-  cursor: pointer;
-}
-
-.primary {
-  background: linear-gradient(90deg, var(--blue-light), var(--blue));
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(59,130,246,0.35);
-}
-
-.secondary {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  color: #374151;
-}
-
-/* ============ Helper text ============ */
-.helper {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #9ca3af;
-}
-
-/* ============ 历史记录 ============ */
-#logList {
-  margin-top: 14px;
-}
-
-.log-item {
-  background: #fafafa;
-  border: 1px solid #e5e7eb;
-  padding: 16px 18px;
-  border-radius: 20px;
-  font-size: 14px;
-  line-height: 1.55;
-  margin-bottom: 14px;
-}
-
-.log-item b {
-  font-size: 15px;
-  display: block;
-  margin-bottom: 6px;
-}
-
-.log-actions button {
-  margin-top: 10px;
-  padding: 6px 14px;
-  font-size: 12px;
-  border-radius: 20px;
-  border: 1px solid #d1d5db;
-  background: #fff;
-  cursor: pointer;
-}
-
-/* 修复高度计算 */
-@supports (-webkit-touch-callout: none) {
-  .app {
-    min-height: calc(var(--vh) * 100 - 20px);
+  :root {
+    --vh: 1vh;
+    --radius: 18px;
+    --shadow: 0 12px 32px rgba(0,0,0,0.1);
   }
-}
+
+  body {
+    margin: 0;
+    padding:
+      env(safe-area-inset-top)
+      env(safe-area-inset-right)
+      env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
+    background: #f4f6fb;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    color: #111;
+    display: flex;
+    justify-content: center;
+    min-height: calc(var(--vh) * 100);
+    overflow-x: hidden; /* ⭐ 防止右侧溢出 */
+  }
+
+  .app {
+    width: 100%;
+    max-width: 680px;
+    box-sizing: border-box; /* ⭐ 防止 padding 撑破宽度 */
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 24px;
+    padding: 26px 22px 40px;
+    box-shadow: var(--shadow);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    margin: 20px 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 14px;
+    border-radius: var(--radius);
+    border: 1px solid #d1d5db;
+    resize: vertical;
+    font-size: 15px;
+    outline: none;
+    background: #fafafa;
+    transition: 0.2s;
+    box-sizing: border-box; /* ⭐ 防止 textarea 溢出 */
+  }
+
+  textarea:focus {
+    border-color: #60a5fa;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(96,165,250,0.25);
+  }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    border: none;
+    box-sizing: border-box;
+  }
+
+  .primary {
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(96,165,250,0.35);
+  }
+
+  .secondary {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+  }
+
+  .helper {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  /* 历史记录卡片 */
+  .log-item {
+    background: #f9fafb;
+    border: 1px solid #eee;
+    padding: 14px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    box-sizing: border-box;
+  }
+
+  .log-item b {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .log-actions button {
+    margin-top: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 999px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+  }
 </style>
 
 <script>
-// Safari 100vh fix
+// ===== iPhone 100vh Fix =====
 function fixVH() {
   document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
 }
@@ -173,17 +156,16 @@ fixVH();
 <body>
 
 <div class="app">
-
   <h1>✨ Nightly Reflection</h1>
   <div class="subtitle">睡前 1 分钟，把今天收好，明天轻一点。</div>
 
-  <div class="section-title">1. 今天的亮点</div>
+  <h3>1. 今天的亮点</h3>
   <textarea id="highlight" placeholder="写一点点就好"></textarea>
 
-  <div class="section-title">2. 今天的卡点</div>
+  <h3>2. 今天的卡点</h3>
   <textarea id="block" placeholder="是什么让你卡住？"></textarea>
 
-  <div class="section-title">3. 明天的小动作</div>
+  <h3>3. 明天的小动作</h3>
   <textarea id="action" placeholder="明天做一件很小的事"></textarea>
 
   <button class="btn primary" id="saveBtn">记录今天</button>
@@ -191,111 +173,160 @@ fixVH();
 
   <div class="helper" id="statusText"></div>
 
-  <div class="section-title" style="margin-top: 36px;">历史记录</div>
+  <h3 style="margin-top:28px;">历史记录</h3>
   <div id="logList"></div>
 </div>
 
 <script>
-/* ====== 你的 JS （不动） ====== */
-const STORAGE_KEY="nightLogs";
-const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec";
+// =====================================
+// CONFIG
+// =====================================
+const STORAGE_KEY = "nightLogs";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec";
 
-function getLogs(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]")}catch{return[]}}
-function setLogs(l){localStorage.setItem(STORAGE_KEY,JSON.stringify(l))}
+// =====================================
+// Local Storage
+// =====================================
+function getLogs() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+  catch { return []; }
+}
+function setLogs(list) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
 
-function renderLogs(){
-  const logs=getLogs();
-  const box=document.getElementById("logList");
-  box.innerHTML="";
-  logs.forEach((l,i)=>{
-    const div=document.createElement("div");
-    div.className="log-item";
-    div.innerHTML=`
+// =====================================
+// Render Logs
+// =====================================
+function renderLogs() {
+  const logs = getLogs();
+  const box = document.getElementById("logList");
+  box.innerHTML = "";
+
+  logs.forEach((l, i) => {
+    const div = document.createElement("div");
+    div.className = "log-item";
+    div.innerHTML = `
       <b>${l.date}</b>
-      🌟 ${l.highlight||"—"}<br>
-      🔎 ${l.block||"—"}<br>
-      ▶️ ${l.action||"—"}<br>
+      🌟 ${l.highlight || "—"}<br>
+      🔎 ${l.block || "—"}<br>
+      ▶️ ${l.action || "—"}<br>
       <div class="log-actions">
         <button onclick="editLog(${i})">编辑</button>
-      </div>`;
+      </div>
+    `;
     box.appendChild(div);
   });
 }
 
-let editingIndex=null;
-function editLog(i){
-  const logs=getLogs();
-  const x=logs[i];
-  editingIndex=i;
-  highlight.value=x.highlight;
-  block.value=x.block;
-  action.value=x.action;
-  statusText.textContent="正在编辑，修改后点击“记录今天”保存";
+// =====================================
+// Edit
+// =====================================
+let editingIndex = null;
+function editLog(i) {
+  const logs = getLogs();
+  const x = logs[i];
+  editingIndex = i;
+
+  highlight.value = x.highlight;
+  block.value = x.block;
+  action.value = x.action;
+
+  statusText.textContent = "正在编辑，修改后点击“记录今天”保存";
 }
 
-async function save(){
-  const highlightVal=highlight.value.trim();
-  const blockVal=block.value.trim();
-  const actionVal=action.value.trim();
-  if(!highlightVal&&!blockVal&&!actionVal)return alert("至少写一点点喔！");
-  let logs=getLogs();
+// =====================================
+// SAVE
+// =====================================
+async function save() {
+  const highlight = document.getElementById("highlight").value.trim();
+  const block = document.getElementById("block").value.trim();
+  const action = document.getElementById("action").value.trim();
 
-  if(editingIndex!==null){
-    logs[editingIndex]={...logs[editingIndex],highlight:highlightVal,block:blockVal,action:actionVal};
+  if (!highlight && !block && !action) {
+    return alert("至少写一点点喔！");
+  }
+
+  let logs = getLogs();
+
+  // ---- edit mode ----
+  if (editingIndex !== null) {
+    logs[editingIndex] = { ...logs[editingIndex], highlight, block, action };
     setLogs(logs);
     renderLogs();
-    editingIndex=null;
-    statusText.textContent="已更新（本地）";
+    editingIndex = null;
+    statusText.textContent = "已更新（本地）";
     return;
   }
 
-  const date=new Date().toISOString().slice(0,10);
-  logs.unshift({date,highlight:highlightVal,block:blockVal,action:actionVal});
+  // ---- new record ----
+  const date = new Date().toISOString().slice(0,10);
+  logs.unshift({ date, highlight, block, action });
   setLogs(logs);
   renderLogs();
-  statusText.textContent="正在同步到 Google Sheet…";
 
-  try{
-    await fetch(SCRIPT_URL,{
-      method:"POST",
-      mode:"no-cors",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({date,highlight:highlightVal,block:blockVal,action:actionVal})
+  statusText.textContent = "正在同步到 Google Sheet…";
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date, highlight, block, action })
     });
-    statusText.textContent="已同步到 Google Sheet ✔";
-  }catch(e){
-    statusText.textContent="本地保存成功，但同步失败。";
+    statusText.textContent = "已同步到 Google Sheet ✔";
+  } catch (e) {
+    statusText.textContent = "本地保存成功，但同步失败。";
   }
 }
 
-function analyze(){
-  const logs=getLogs();
-  if(!logs.length)return alert("还没有记录");
-  const recent=logs.slice(0,7)
-    .map(l=>`日期：${l.date}\n亮点：${l.highlight}\n卡点：${l.block}\n明天的小动作：${l.action}`)
+// =====================================
+// ANALYZE → Kai GPT
+// =====================================
+function analyze() {
+  const logs = getLogs();
+  if (!logs.length) {
+    alert("还没有记录");
+    return;
+  }
+
+  const recent = logs
+    .slice(0, 7)
+    .map(l => `日期：${l.date}\n亮点：${l.highlight}\n卡点：${l.block}\n明天的小动作：${l.action}`)
     .join("\n\n");
-  const prompt=
-`以下是我最近 7 天的 Nightly Reflection，请帮我做深度分析：
+
+  const prompt =
+`以下是我最近的 Nightly Reflection（已从 PWA 获取）：
 
 ${recent}
 
-请输出：
+请你作为「Kai Nightly Reflection Analyzer」GPT，输出：
 
-1. 今天一句话总结  
-2. 这周一句话趋势  
-3. 明天一句话建议  
-  `;
-  navigator.clipboard.writeText(prompt).then(()=>{
-    alert("总结已复制，将带你前往 Kai Nightly Reflection GPT 分析");
-    window.location.href="https://chatgpt.com/g/g-6926c2b7d6f08191bcc7c822996bd7c8-kai-nightly-reflection-analyzer";
-  });
+1. CEO 一句话总结（最重要）
+2. 今天最重要的亮点
+3. 今天真正的卡点意义（深层）
+4. 过去一周的模式总结（高管式）
+5. 明天我应该做的一件事（一个动作）
+6. 一句成熟、稳定、轻柔的 encouragement`;
+
+  navigator.clipboard.writeText(prompt)
+    .then(() => {
+      alert("内容已复制，即将打开 Kai GPT 分析。");
+      window.location.href = "https://chatgpt.com/g/g-6926c2b7d6f08191bcc7c822996bd7c8-kai-nightly-reflection-analyzer";
+    });
 }
 
-saveBtn.onclick=save;
-analyzeBtn.onclick=analyze;
+// =====================================
+// Event Listeners
+// =====================================
+saveBtn.onclick = save;
+analyzeBtn.onclick = analyze;
 renderLogs();
 
-if("serviceWorker" in navigator){
+// =====================================
+// PWA Service Worker
+// =====================================
+if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js");
 }
 </script>
