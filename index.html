@@ -107,6 +107,13 @@
   }
 
   /* 🔥 历史记录 */
+  #logList {
+    margin-top: 10px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
   .log-item {
     background: #f9fafb;
     border: 1px solid #eee;
@@ -116,6 +123,7 @@
     margin-bottom: 12px;
     line-height: 1.5;
   }
+
   .log-item b {
     font-size: 14px;
     display: block;
@@ -218,11 +226,12 @@ function editLog(i) {
   const x = logs[i];
   editingIndex = i;
 
-  highlight.value = x.highlight;
-  block.value = x.block;
-  action.value = x.action;
+  document.getElementById("highlight").value = x.highlight;
+  document.getElementById("block").value = x.block;
+  document.getElementById("action").value = x.action;
 
-  statusText.textContent = "正在编辑，修改后点击“记录今天”保存";
+  document.getElementById("statusText").textContent =
+    "正在编辑，修改后点击“记录今天”保存";
 }
 
 // =====================================
@@ -232,6 +241,7 @@ async function save() {
   const highlight = document.getElementById("highlight").value.trim();
   const block = document.getElementById("block").value.trim();
   const action = document.getElementById("action").value.trim();
+  const status = document.getElementById("statusText");
 
   if (!highlight && !block && !action) {
     return alert("至少写一点点喔！");
@@ -245,7 +255,7 @@ async function save() {
     setLogs(logs);
     renderLogs();
     editingIndex = null;
-    statusText.textContent = "已更新（本地）";
+    status.textContent = "已更新（本地）";
     return;
   }
 
@@ -255,7 +265,7 @@ async function save() {
   setLogs(logs);
   renderLogs();
 
-  statusText.textContent = "正在同步到 Google Sheet…";
+  status.textContent = "正在同步到 Google Sheet…";
 
   try {
     await fetch(SCRIPT_URL, {
@@ -264,12 +274,15 @@ async function save() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date, highlight, block, action })
     });
-    statusText.textContent = "已同步到 Google Sheet ✔";
+    status.textContent = "已同步到 Google Sheet ✔";
   } catch (e) {
-    statusText.textContent = "本地保存成功，但同步失败。";
+    status.textContent = "本地保存成功，但同步失败。";
   }
 }
 
+// =====================================
+// ANALYZE with GPT
+// =====================================
 function analyze() {
   const logs = getLogs();
   if (!logs.length) {
@@ -297,24 +310,22 @@ ${recent}
 7. 一句成熟、温柔、不油腻的鼓励  
 `;
 
-  navigator.clipboard.writeText(prompt)
-    .then(() => {
-      alert("总结已复制\n接下来会自动打开你的「Kai Nightly Reflection Analyzer」GPT");
-
-      // 跳转到你的 GPT（专属链接）
-      window.location.href = "https://chatgpt.com/g/g-6926c2b7d6f08191bcc7c822996bd7c8-kai-nightly-reflection-analyzer";
-    });
+  navigator.clipboard.writeText(prompt).then(() => {
+    alert("总结已复制\n将自动带你进入 Kai Nightly Reflection Analyzer");
+    window.location.href =
+      "https://chatgpt.com/g/g-6926c2b7d6f08191bcc7c822996bd7c8-kai-nightly-reflection-analyzer";
+  });
 }
 
 // =====================================
-// Event Listeners
+// Events
 // =====================================
-saveBtn.onclick = save;
-analyzeBtn.onclick = analyze;
+document.getElementById("saveBtn").onclick = save;
+document.getElementById("analyzeBtn").onclick = analyze;
 renderLogs();
 
 // =====================================
-// PWA Service Worker
+// PWA
 // =====================================
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js");
