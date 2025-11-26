@@ -1,153 +1,156 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Nightly Reflection</title>
 
-
-  <!-- iPhone 16 / iOS 优化 -->
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
 <style>
-  /* 避免 iPhone 下方空白 */
-  body, html {
-    height: 100%;
-    margin: 0;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  }
-
-  /* iPhone Safari 100vh 修复 */
   :root {
     --vh: 1vh;
+    --radius: 18px;
+    --shadow: 0 12px 32px rgba(0,0,0,0.12);
   }
-  @supports (-webkit-touch-callout: none) {
-    .app {
-      min-height: calc(var(--vh, 1vh) * 100);
-    }
+
+  body {
+    margin: 0;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+    background: #f4f6fb;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    color: #111;
+    display: flex;
+    justify-content: center;
+    min-height: calc(var(--vh) * 100);
+  }
+
+  .app {
+    width: 100%;
+    max-width: 650px;
+    background: #fff;
+    margin-top: 20px;
+    border-radius: 24px;
+    padding: 26px 22px 40px;
+    box-shadow: var(--shadow);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    margin: 20px 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 14px;
+    border-radius: var(--radius);
+    border: 1px solid #d1d5db;
+    resize: vertical;
+    font-size: 15px;
+    outline: none;
+    background: #fafafa;
+    transition: 0.2s;
+  }
+
+  textarea:focus {
+    border-color: #60a5fa;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(96,165,250,0.25);
+  }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    border: none;
+  }
+
+  .primary {
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(96,165,250,0.4);
+  }
+
+  .secondary {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+  }
+
+  .helper {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  /* 🔥 历史记录 */
+  .log-item {
+    background: #f9fafb;
+    border: 1px solid #eee;
+    padding: 14px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .log-item b {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .log-actions button {
+    margin-top: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 999px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
   }
 </style>
 
 <script>
-  // 修复 iPhone 的 100vh
-  function fixVH() {
-    document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
-  }
-  window.addEventListener("resize", fixVH);
-  window.addEventListener("orientationchange", fixVH);
-  fixVH();
+// ===== iPhone 100vh Fix =====
+function fixVH() {
+  document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
+}
+window.addEventListener("resize", fixVH);
+window.addEventListener("orientationchange", fixVH);
+fixVH();
 </script>
-
-  <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-  
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nightly Reflection</title>
-
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json" />
-
-  <style>
-    body {
-      margin: 0;
-      background: #f4f6fb;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: 30px 16px;
-      color: #111;
-    }
-    .app {
-      width: 100%;
-      max-width: 650px;
-      background: #fff;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      font-weight: 700;
-    }
-    .subtitle {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 20px;
-    }
-    h3 {
-      margin: 16px 0 8px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    textarea {
-      width: 100%;
-      min-height: 70px;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #d1d5db;
-      resize: vertical;
-      font-size: 14px;
-      outline: none;
-    }
-    textarea:focus {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 1px rgba(96,165,250,0.4);
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 999px;
-      border: none;
-      margin-top: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .primary {
-      background: linear-gradient(90deg, #60a5fa, #3b82f6);
-      color: white;
-      box-shadow: 0 5px 20px rgba(99,102,241,0.4);
-    }
-    .secondary {
-      background: #fff;
-      border: 1px solid #ddd;
-      color: #333;
-    }
-    .helper {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #888;
-    }
-    .log-item {
-      background: #f9fafb;
-      border: 1px solid #eee;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-    .log-actions button {
-      margin-top: 6px;
-      padding: 5px 10px;
-      font-size: 11px;
-      border-radius: 999px;
-      border: 1px solid #ccc;
-      background: #fff;
-      cursor: pointer;
-    }
-  </style>
 </head>
 
 <body>
-
 <div class="app">
   <h1>✨ Nightly Reflection</h1>
   <div class="subtitle">睡前 1 分钟，把今天收好，明天轻一点。</div>
 
   <h3>1. 今天的亮点</h3>
-  <textarea id="highlight" placeholder="写一点点就可以"></textarea>
+  <textarea id="highlight" placeholder="写一点点就好"></textarea>
 
   <h3>2. 今天的卡点</h3>
   <textarea id="block" placeholder="是什么让你卡住？"></textarea>
@@ -155,50 +158,46 @@
   <h3>3. 明天的小动作</h3>
   <textarea id="action" placeholder="明天做一件很小的事"></textarea>
 
-  <button class="primary" id="saveBtn">记录今天的反思</button>
-  <button class="secondary" id="analyzeBtn">✨ 一键分析最近 7 天</button>
+  <button class="btn primary" id="saveBtn">记录今天</button>
+  <button class="btn secondary" id="analyzeBtn">✨ 一键用 ChatGPT 分析</button>
 
   <div class="helper" id="statusText"></div>
 
-  <h3 style="margin-top:24px;">历史记录</h3>
+  <h3 style="margin-top:28px;">历史记录</h3>
   <div id="logList"></div>
 </div>
 
-
 <script>
-// ================================
+// =====================================
 // CONFIG
-// ================================
+// =====================================
 const STORAGE_KEY = "nightLogs";
-
-// <<<< YOUR SHEET API >>>>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec";
 
-// ================================
-// LocalStorage Functions
-// ================================
+// =====================================
+// Local Storage
+// =====================================
 function getLogs() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
   catch { return []; }
 }
-
 function setLogs(list) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
-// ================================
+// =====================================
 // Render Logs
-// ================================
+// =====================================
 function renderLogs() {
   const logs = getLogs();
   const box = document.getElementById("logList");
   box.innerHTML = "";
 
   logs.forEach((l, i) => {
-    const item = document.createElement("div");
-    item.className = "log-item";
-    item.innerHTML = `
-      <div><b>${l.date}</b></div>
+    const div = document.createElement("div");
+    div.className = "log-item";
+    div.innerHTML = `
+      <b>${l.date}</b>
       🌟 ${l.highlight || "—"}<br>
       🔎 ${l.block || "—"}<br>
       ▶️ ${l.action || "—"}<br>
@@ -206,107 +205,111 @@ function renderLogs() {
         <button onclick="editLog(${i})">编辑</button>
       </div>
     `;
-    box.appendChild(item);
+    box.appendChild(div);
   });
 }
 
-// ================================
+// =====================================
 // Edit
-// ================================
+// =====================================
 let editingIndex = null;
-
 function editLog(i) {
   const logs = getLogs();
   const x = logs[i];
-  if (!x) return;
   editingIndex = i;
 
-  document.getElementById("highlight").value = x.highlight;
-  document.getElementById("block").value = x.block;
-  document.getElementById("action").value = x.action;
+  highlight.value = x.highlight;
+  block.value = x.block;
+  action.value = x.action;
 
-  document.getElementById("statusText").textContent =
-    "正在编辑，修改后再按「记录」即可";
+  statusText.textContent = "正在编辑，修改后点击“记录今天”保存";
 }
 
-// ================================
-// SAVE (Local + Google Sheet)
-// ================================
+// =====================================
+// SAVE
+// =====================================
 async function save() {
   const highlight = document.getElementById("highlight").value.trim();
   const block = document.getElementById("block").value.trim();
   const action = document.getElementById("action").value.trim();
-  const status = document.getElementById("statusText");
 
   if (!highlight && !block && !action) {
-    alert("至少写一点点喔！");
-    return;
+    return alert("至少写一点点喔！");
   }
 
   let logs = getLogs();
 
   // ---- edit mode ----
   if (editingIndex !== null) {
-    logs[editingIndex].highlight = highlight;
-    logs[editingIndex].block = block;
-    logs[editingIndex].action = action;
-
+    logs[editingIndex] = { ...logs[editingIndex], highlight, block, action };
     setLogs(logs);
     renderLogs();
     editingIndex = null;
-    status.textContent = "已更新（本地）。如需同步，只需新增一条记录。";
+    statusText.textContent = "已更新（本地）";
     return;
   }
 
   // ---- new record ----
-  const date = new Date().toISOString().slice(0, 10);
+  const date = new Date().toISOString().slice(0,10);
   logs.unshift({ date, highlight, block, action });
   setLogs(logs);
   renderLogs();
 
-  status.textContent = "已记录（本地），正在同步到 Google Sheet…";
+  statusText.textContent = "正在同步到 Google Sheet…";
 
-  // ---- GOOGLE SHEET SYNC ----
   try {
     await fetch(SCRIPT_URL, {
       method: "POST",
-      mode: "no-cors", // ⭐ 必须有这个
+      mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date, highlight, block, action })
     });
-
-    status.textContent = "已同步到 Google Sheet ✅（后台完成）";
-  } catch (err) {
-    console.error(err);
-    status.textContent = "同步失败，但本地已保存。";
+    statusText.textContent = "已同步到 Google Sheet ✔";
+  } catch (e) {
+    statusText.textContent = "本地保存成功，但同步失败。";
   }
 }
 
-// ================================
-// ANALYZE (Local version)
-// ================================
+// =====================================
+// ANALYZE with ChatGPT (copy → jump)
+// =====================================
 function analyze() {
   const logs = getLogs();
   if (!logs.length) return alert("还没有记录");
 
-  const last7 = logs.slice(0,7);
-  let output = `✨ 最近 ${last7.length} 天你都有在记录：\n\n`;
+  const recent = logs.slice(0,7)
+    .map(x => `日期：${x.date}\n亮点：${x.highlight}\n卡点：${x.block}\n明天：${x.action}`)
+    .join("\n\n");
 
-  output += last7.map(x => `■ ${x.date}\n亮点：${x.highlight}\n卡点：${x.block}\n动作：${x.action}\n`).join("\n");
+  const prompt = `以下是我最近 7 天的 Nightly Reflection，请帮我做深度分析：
 
-  alert(output);
+${recent}
+
+分析内容请包含：
+1. 过去 7 天总结
+2. 最常出现的亮点（Top 3）
+3. 最常出现的卡点（Top 3）
+4. 你观察到的趋势（3 点）
+5. 我潜在的 DISC 倾向（轻量）
+6. 明天一个最关键的小动作
+7. 给我一句成熟温柔的鼓励`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    alert("已复制内容，将自动带你到 ChatGPT 对话。贴上即可分析。");
+    window.location.href = "https://chat.openai.com/";
+  });
 }
 
-// ================================
-// EVENT
-// ================================
-document.getElementById("saveBtn").onclick = save;
-document.getElementById("analyzeBtn").onclick = analyze;
+// =====================================
+// Event Listeners
+// =====================================
+saveBtn.onclick = save;
+analyzeBtn.onclick = analyze;
 renderLogs();
 
-// ================================
-// REGISTER SERVICE WORKER for PWA
-// ================================
+// =====================================
+// PWA Service Worker
+// =====================================
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js");
 }
@@ -314,38 +317,3 @@ if ("serviceWorker" in navigator) {
 
 </body>
 </html>
-
-function analyze() {
-  const logs = getLogs();
-  if (!logs.length) {
-    alert("还没有记录");
-    return;
-  }
-
-  const recent = logs.slice(0, 7)
-    .map(l => `日期：${l.date}\n亮点：${l.highlight}\n卡点：${l.block}\n明天的小动作：${l.action}`)
-    .join("\n\n");
-
-  const prompt = 
-`以下是我最近 7 天的 Nightly Reflection，请帮我做深度分析：
-
-${recent}
-
-分析输出结构：
-
-1. 过去 7 天的总结
-2. 最常出现的亮点（Top 3）
-3. 最常出现的卡点（Top 3）
-4. 你观察到的趋势（3 点）
-5. 你对我 DISC / 性格 / 情绪模式的分析
-6. 明天我应该做的一个关键小动作
-7. 给我一句成熟温柔的鼓励`;
-
-  navigator.clipboard.writeText(prompt)
-    .then(() => {
-      alert("总结已复制，现在会自动带你到 ChatGPT 对话～");
-
-      // 打开你和我现在的这个对话（你贴自己的 URL）
-      window.location.href = "https://chat.openai.com"; 
-    });
-}
