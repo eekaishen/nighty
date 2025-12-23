@@ -10,103 +10,169 @@
   <link rel="apple-touch-icon" href="icon-192.png" />
 
   <style>
+    :root {
+      --bg: #f8f6fb;
+      --card: #ffffff;
+      --primary: #8b7cf6;
+      --primary-soft: #ede9fe;
+      --border: #e9e7f5;
+      --text-main: #374151;
+      --text-sub: #6b7280;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      background: #f4f6fb;
+      background: radial-gradient(circle at top, #f3e8ff, var(--bg));
       font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       display: flex;
       justify-content: center;
+      color: var(--text-main);
     }
 
     .app {
-      max-width: 680px;
+      max-width: 720px;
       width: 100%;
-      background: #fff;
-      padding: 28px 22px 36px;
-      border-radius: 24px;
+      background: var(--card);
+      padding: 32px 24px 40px;
+      border-radius: 32px;
       margin: 20px;
+      box-shadow:
+        0 20px 40px rgba(139, 124, 246, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+      animation: fadeUp 0.6s ease;
     }
 
+    /* Header */
     h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 26px;
+      font-weight: 700;
     }
 
     .subtitle {
-      color: #6b7280;
-      margin: 6px 0 20px;
+      color: var(--text-sub);
+      margin: 8px 0 28px;
       font-size: 14px;
     }
 
-    h3 {
-      margin-top: 22px;
-      font-size: 15px;
+    /* Input fields */
+    .field {
+      margin-bottom: 22px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
     }
 
     textarea {
       width: 100%;
-      min-height: 80px;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid #d1d5db;
-      background: #fafafa;
+      min-height: 96px;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: #faf9ff;
       font-size: 15px;
+      resize: vertical;
+      transition: all 0.2s ease;
     }
 
+    textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    textarea:focus {
+      outline: none;
+      background: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(139, 124, 246, 0.18);
+    }
+
+    /* Button */
     button {
       width: 100%;
-      padding: 14px;
-      margin-top: 14px;
+      padding: 18px;
+      margin-top: 6px;
       border-radius: 999px;
       border: none;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
+      background: linear-gradient(90deg, #a78bfa, #7c6ff0);
+      color: #fff;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 10px 26px rgba(139, 124, 246, 0.35);
     }
 
-    .primary {
-      background: linear-gradient(90deg, #60a5fa, #3b82f6);
-      color: #fff;
+    button:active {
+      transform: scale(0.96);
     }
 
     .helper {
       font-size: 13px;
-      color: #666;
-      margin-top: 10px;
+      color: var(--text-sub);
+      margin-top: 12px;
+      text-align: center;
     }
 
-    /* ===== Terminal UI ===== */
+    /* Terminal */
     .terminal {
-      margin-top: 28px;
-      background: #0b0f14;
+      margin-top: 36px;
+      background: linear-gradient(180deg, #0f172a, #020617);
       color: #d1d5db;
-      border-radius: 16px;
-      padding: 16px;
+      border-radius: 22px;
+      padding: 20px;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 13px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 20px 40px rgba(15, 23, 42, 0.35);
+      animation: fadeUp 0.8s ease;
     }
 
     .terminal-header {
       color: #9ca3af;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .cmd {
-      background: #111827;
+      background: linear-gradient(180deg, #111827, #0b1220);
       border: 1px solid #1f2937;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 10px;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     .cmd:hover {
-      background: #0f172a;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(139, 124, 246, 0.35);
     }
 
     .cmd-title {
-      color: #60a5fa;
-      font-size: 12px;
+      color: #a78bfa;
+      font-size: 13px;
+      font-weight: 600;
       margin-bottom: 6px;
+    }
+
+    /* Animation */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -116,19 +182,24 @@
     <h1>✨ Nightly Reflection</h1>
     <div class="subtitle">1 minute before sleep. Quiet, private, yours.</div>
 
-    <h3>Today’s highlight</h3>
-    <textarea id="highlight"></textarea>
+    <div class="field">
+      <label>Today’s highlight</label>
+      <textarea id="highlight" placeholder="One small win is enough…"></textarea>
+    </div>
 
-    <h3>Today’s block</h3>
-    <textarea id="block"></textarea>
+    <div class="field">
+      <label>Today’s block</label>
+      <textarea id="block" placeholder="What felt heavy or stuck today?"></textarea>
+    </div>
 
-    <h3>Tomorrow’s small action</h3>
-    <textarea id="action"></textarea>
+    <div class="field">
+      <label>Tomorrow’s small action</label>
+      <textarea id="action" placeholder="Something gentle, realistic, doable"></textarea>
+    </div>
 
-    <button class="primary" onclick="sendEmail()">Record & Send (Gmail)</button>
+    <button onclick="sendEmail()">Record & Send (Gmail)</button>
     <div class="helper" id="status"></div>
 
-    <h3>🧠 Reflection Summary Terminal</h3>
     <div class="terminal">
       <div class="terminal-header">
         $ reflection summarize --source=gmail --target=gemini
@@ -156,14 +227,12 @@
       const h = highlight.value.trim();
       const b = block.value.trim();
       const a = action.value.trim();
-
       if (!h && !b && !a) {
-        alert("Write at least something.");
+        alert("Write at least one gentle thought 🌙");
         return;
       }
 
       const date = new Date().toISOString().slice(0, 10);
-
       const subject = `🌙 Nightly Reflection — ${date}`;
       const body =
         `Date: ${date}
@@ -175,10 +244,7 @@ Block:
 ${b || "—"}
 
 Action:
-${a || "—"}
-
----
-Sent from Nightly Reflection`;
+${a || "—"}`;
 
       const gmailUrl =
         "https://mail.google.com/mail/?view=cm&fs=1" +
@@ -187,35 +253,24 @@ Sent from Nightly Reflection`;
         `&body=${encodeURIComponent(body)}`;
 
       window.location.href = gmailUrl;
-      status.textContent = "Saved locally. Gmail compose opened.";
+      status.textContent = "Saved ✨ Take a breath, then send when ready 🌙";
     }
 
     function copyPrompt(mode) {
-      let range = "";
-      let title = "";
-      let role = "";
-      let instruction = "";
+      let range, title, role;
 
       if (mode === "7d") {
         range = "from:(TODAY-7DAYS) to:(TODAY)";
         title = "7 Day Insight";
         role = "calm, practical reflection coach";
-        instruction =
-          `If data is limited, acknowledge it briefly, then still give value.`;
-      }
-
-      if (mode === "1m") {
+      } else if (mode === "1m") {
         range = "from:(TODAY-1MONTH) to:(TODAY)";
         title = "Monthly Review";
         role = "structured life review partner";
-        instruction = "";
-      }
-
-      if (mode === "ytd") {
+      } else {
         range = "from:(START_OF_YEAR) to:(TODAY)";
         title = "Year to Date Analysis";
         role = "long-term personal growth analyst";
-        instruction = "";
       }
 
       const prompt =
@@ -226,19 +281,15 @@ to:eekaishen+reflection@gmail.com
 subject:"🌙 Nightly Reflection"
 ${range}
 
-Read all matching emails and extract the reflection content.
-
 You are my ${role}.
-${instruction}
-
-Output exactly:
-1. A concise summary
-2. Any observable patterns (or clearly state if data is insufficient)
-3. The emotional tone or phase I am in
-4. One concrete, actionable recommendation`;
+Give me:
+1. Summary
+2. Patterns
+3. Emotional trend
+4. One practical recommendation`;
 
       navigator.clipboard.writeText(prompt);
-      alert("Prompt copied. Paste into Gemini.");
+      alert("Prompt copied ✨ Paste into Gemini");
     }
   </script>
 </body>
