@@ -186,7 +186,7 @@ Sent from Nightly Reflection`;
         `&su=${encodeURIComponent(subject)}` +
         `&body=${encodeURIComponent(body)}`;
 
-      window.open(gmailUrl, "_blank");
+      window.location.href = gmailUrl;
       status.textContent = "Saved locally. Gmail compose opened.";
     }
 
