@@ -1,319 +1,246 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Nightly Reflection</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nightly Reflection</title>
 
-<link rel="manifest" href="manifest.json" />
-<link rel="apple-touch-icon" href="icon-192.png" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
 
-<style>
-:root {
-  --vh: 1vh;
-  --radius: 18px;
-  --shadow: 0 12px 28px rgba(0,0,0,0.10);
-}
+  <style>
+    body {
+      margin: 0;
+      background: #f4f6fb;
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+    }
 
-/* Avoid overflow */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-  background: #f4f6fb;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-}
+    .app {
+      max-width: 680px;
+      width: 100%;
+      background: #fff;
+      padding: 28px 22px 36px;
+      border-radius: 24px;
+      margin: 20px;
+    }
 
-/* iPhone safe-area */
-body {
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-           env(safe-area-inset-bottom) env(safe-area-inset-left);
-  min-height: calc(var(--vh) * 100);
-  display: flex;
-  justify-content: center;
-}
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
 
-/* Main card */
-.app {
-  width: 100%;
-  max-width: 660px;
-  background: #fff;
-  border-radius: 26px;
-  padding: 28px 22px 36px;
-  box-sizing: border-box;
-  box-shadow: var(--shadow);
-}
+    .subtitle {
+      color: #6b7280;
+      margin: 6px 0 20px;
+      font-size: 14px;
+    }
 
-/* Header */
-h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-}
+    h3 {
+      margin-top: 22px;
+      font-size: 15px;
+    }
 
-.subtitle {
-  margin: 6px 0 20px;
-  font-size: 14px;
-  color: #6b7280;
-}
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #d1d5db;
+      background: #fafafa;
+      font-size: 15px;
+    }
 
-/* Titles */
-h3 {
-  margin: 20px 0 6px;
-  font-size: 15px;
-  font-weight: 600;
-}
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 14px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-/* Textareas */
-textarea {
-  width: 100%;
-  min-height: 80px;
-  padding: 14px;
-  border-radius: var(--radius);
-  border: 1px solid #d1d5db;
-  background: #fafafa;
-  font-size: 15px;
-  resize: vertical;
-  box-sizing: border-box;
-}
-textarea:focus {
-  border-color: #3b82f6;
-  background: #fff;
-  box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
-  outline: none;
-}
+    .primary {
+      background: linear-gradient(90deg, #60a5fa, #3b82f6);
+      color: #fff;
+    }
 
-/* Buttons */
-.btn {
-  width: 100%;
-  padding: 15px;
-  margin-top: 16px;
-  border-radius: 999px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: 0.2s;
-}
+    .helper {
+      font-size: 13px;
+      color: #666;
+      margin-top: 10px;
+    }
 
-.primary {
-  background: linear-gradient(90deg, #60a5fa, #3b82f6);
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(96,165,250,0.4);
-}
-.primary:active {
-  transform: scale(.98);
-}
+    /* ===== Terminal UI ===== */
+    .terminal {
+      margin-top: 28px;
+      background: #0b0f14;
+      color: #d1d5db;
+      border-radius: 16px;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+    }
 
-.secondary {
-  background: #fff;
-  border: 1px solid #ddd;
-  color: #333;
-}
-.secondary:active {
-  transform: scale(.98);
-}
+    .terminal-header {
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
 
-.helper {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #888;
-}
+    .cmd {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
 
-/* Log list */
-.log-item {
-  background: #f9fafb;
-  border: 1px solid #eee;
-  padding: 14px;
-  border-radius: var(--radius);
-  font-size: 14px;
-  margin-bottom: 12px;
-  line-height: 1.5;
-  box-sizing: border-box;
-}
+    .cmd:hover {
+      background: #0f172a;
+    }
 
-.log-actions button {
-  padding: 6px 12px;
-  margin-top: 10px;
-  border-radius: 999px;
-  border: 1px solid #ccc;
-  font-size: 12px;
-  background: #fff;
-  cursor: pointer;
-}
-</style>
-
-<script>
-// Fix 100vh iPhone
-function fixVH() {
-  document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
-}
-window.addEventListener("resize", fixVH);
-window.addEventListener("orientationchange", fixVH);
-fixVH();
-</script>
-
+    .cmd-title {
+      color: #60a5fa;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+  </style>
 </head>
+
 <body>
+  <div class="app">
+    <h1>✨ Nightly Reflection</h1>
+    <div class="subtitle">1 minute before sleep. Quiet, private, yours.</div>
 
-<div class="app">
-  <h1>✨ Nightly Reflection</h1>
-  <div class="subtitle">睡前 1 分钟，把今天收好，明天轻一点。</div>
+    <h3>Today’s highlight</h3>
+    <textarea id="highlight"></textarea>
 
-  <h3>1. 今天的亮点</h3>
-  <textarea id="highlight" placeholder="写一点点就好"></textarea>
+    <h3>Today’s block</h3>
+    <textarea id="block"></textarea>
 
-  <h3>2. 今天的卡点</h3>
-  <textarea id="block" placeholder="是什么让你卡住？"></textarea>
+    <h3>Tomorrow’s small action</h3>
+    <textarea id="action"></textarea>
 
-  <h3>3. 明天的小动作</h3>
-  <textarea id="action" placeholder="明天做一件很小的事"></textarea>
+    <button class="primary" onclick="sendEmail()">Record & Send (Gmail)</button>
+    <div class="helper" id="status"></div>
 
-  <button class="btn primary" id="saveBtn">记录今天</button>
-  <button class="btn secondary" id="analyzeBtn">✨ 一键用 ChatGPT 分析</button>
-
-  <div class="helper" id="statusText"></div>
-
-  <h3 style="margin-top:28px;">历史记录</h3>
-  <div id="logList"></div>
-</div>
-
-<script>
-// CONFIG
-const STORAGE_KEY = "nightLogs";
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzQb1W-8Cu6maVPkpKHqLDmBfZVycJ1dQjTFUT3Qawq-gUHGGiJKc-yoBpVqxv1COKs1A/exec";
-
-// Storage
-function getLogs() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
-  catch { return []; }
-}
-function setLogs(list) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-}
-
-// Render logs
-function renderLogs() {
-  const logs = getLogs();
-  const box = document.getElementById("logList");
-  box.innerHTML = "";
-
-  logs.forEach((l, i) => {
-    const div = document.createElement("div");
-    div.className = "log-item";
-    div.innerHTML = `
-      <b>${l.date}</b>
-      🌟 ${l.highlight || "—"}<br>
-      🔎 ${l.block || "—"}<br>
-      ▶️ ${l.action || "—"}<br>
-      <div class="log-actions">
-        <button onclick="editLog(${i})">编辑</button>
+    <h3>🧠 Reflection Summary Terminal</h3>
+    <div class="terminal">
+      <div class="terminal-header">
+        $ reflection summarize --source=gmail --target=gemini
       </div>
-    `;
-    box.appendChild(div);
-  });
-}
 
-let editingIndex = null;
+      <div class="cmd" onclick="copyPrompt('7d')">
+        <div class="cmd-title">▶ 7 Days Summary</div>
+        Calm insight · handles sparse data
+      </div>
 
-// Edit
-function editLog(i) {
-  const logs = getLogs();
-  const x = logs[i];
-  editingIndex = i;
+      <div class="cmd" onclick="copyPrompt('1m')">
+        <div class="cmd-title">▶ 1 Month Summary</div>
+        Pattern review · habit signals
+      </div>
 
-  highlight.value = x.highlight;
-  block.value = x.block;
-  action.value = x.action;
+      <div class="cmd" onclick="copyPrompt('ytd')">
+        <div class="cmd-title">▶ Year to Date Summary</div>
+        Long-term narrative · strategy
+      </div>
+    </div>
+  </div>
 
-  statusText.textContent = "正在编辑，修改后点击「记录今天」保存";
-}
+  <script>
+    function sendEmail() {
+      const h = highlight.value.trim();
+      const b = block.value.trim();
+      const a = action.value.trim();
 
-// Save
-async function save() {
-  const highlight = document.getElementById("highlight").value.trim();
-  const block = document.getElementById("block").value.trim();
-  const action = document.getElementById("action").value.trim();
+      if (!h && !b && !a) {
+        alert("Write at least something.");
+        return;
+      }
 
-  if (!highlight && !block && !action) {
-    return alert("至少写一点点喔！");
-  }
+      const date = new Date().toISOString().slice(0, 10);
 
-  let logs = getLogs();
+      const subject = `🌙 Nightly Reflection — ${date}`;
+      const body =
+        `Date: ${date}
 
-  if (editingIndex !== null) {
-    logs[editingIndex] = { ...logs[editingIndex], highlight, block, action };
-    setLogs(logs);
-    renderLogs();
-    editingIndex = null;
-    statusText.textContent = "已更新（本地）";
-    return;
-  }
+Highlight:
+${h || "—"}
 
-  const date = new Date().toISOString().slice(0,10);
-  logs.unshift({ date, highlight, block, action });
-  setLogs(logs);
-  renderLogs();
+Block:
+${b || "—"}
 
-  statusText.textContent = "正在同步到 Google Sheet…";
+Action:
+${a || "—"}
 
-  try {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ date, highlight, block, action })
-    });
-    statusText.textContent = "已同步到 Google Sheet ✔";
-  } catch (e) {
-    statusText.textContent = "本地保存成功，但同步失败。";
-  }
-}
+---
+Sent from Nightly Reflection`;
 
-// GPT analyze
-function analyze() {
-  const logs = getLogs();
-  if (!logs.length) {
-    alert("还没有记录");
-    return;
-  }
+      const gmailUrl =
+        "https://mail.google.com/mail/?view=cm&fs=1" +
+        `&to=${encodeURIComponent("eekaishen+reflection@gmail.com")}` +
+        `&su=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(body)}`;
 
-  const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTDI33FbOwp_xun5vzv8NHZZ__FRrk84uyiwdvvGwid2XlbQmBwdbi7eH9l8bYxuZr_yDHc-Qtm7djt/pub?output=csv&single=true&gid=0";
+      window.open(gmailUrl, "_blank");
+      status.textContent = "Saved locally. Gmail compose opened.";
+    }
 
-  const prompt = 
-`请从以下 CSV 链接自动读取我的 Nightly Reflection（永远从此处读取）：
+    function copyPrompt(mode) {
+      let range = "";
+      let title = "";
+      let role = "";
+      let instruction = "";
 
-${csvUrl}
+      if (mode === "7d") {
+        range = "from:(TODAY-7DAYS) to:(TODAY)";
+        title = "7 Day Insight";
+        role = "calm, practical reflection coach";
+        instruction =
+          `If data is limited, acknowledge it briefly, then still give value.`;
+      }
 
-请按你的固定流程输出三句话：
+      if (mode === "1m") {
+        range = "from:(TODAY-1MONTH) to:(TODAY)";
+        title = "Monthly Review";
+        role = "structured life review partner";
+        instruction = "";
+      }
 
-1. 今天一句话总结  
-2. 这周趋势一句话  
-3. 明天一句话建议  
+      if (mode === "ytd") {
+        range = "from:(START_OF_YEAR) to:(TODAY)";
+        title = "Year to Date Analysis";
+        role = "long-term personal growth analyst";
+        instruction = "";
+      }
 
-不要要求我贴数据，也不要提示“无法访问”。`;
+      const prompt =
+        `Title: Nightly Reflection — ${title}
 
-  navigator.clipboard.writeText(prompt)
-    .then(() => {
-      alert("总结已复制，将跳转到 Kai Reflection GPT");
-      window.location.href = "https://chatgpt.com/g/g-6926c2b7d6f08191bcc7c822996bd7c8-kai-nightly-reflection-analyzer";
-    });
-}
+Search @gmail with:
+to:eekaishen+reflection@gmail.com
+subject:"🌙 Nightly Reflection"
+${range}
 
-// Event
-saveBtn.onclick = save;
-analyzeBtn.onclick = analyze;
-renderLogs();
+Read all matching emails and extract the reflection content.
 
-// PWA service worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
-}
-</script>
+You are my ${role}.
+${instruction}
 
+Output exactly:
+1. A concise summary
+2. Any observable patterns (or clearly state if data is insufficient)
+3. The emotional tone or phase I am in
+4. One concrete, actionable recommendation`;
+
+      navigator.clipboard.writeText(prompt);
+      alert("Prompt copied. Paste into Gemini.");
+    }
+  </script>
 </body>
+
 </html>
