@@ -1,241 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nightly Reflection</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nightly Reflection</title>
 
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
 
-  <style>
-    :root {
-      --bg: #f8f6fb;
-      --card: #ffffff;
-      --primary: #8b7cf6;
-      --primary-soft: #ede9fe;
-      --border: #e9e7f5;
-      --text-main: #374151;
-      --text-sub: #6b7280;
-    }
+<style>
+:root {
+  --bg: #f8f6fb;
+  --card: #ffffff;
+  --primary: #8b7cf6;
+  --primary-soft: #ede9fe;
+  --border: #e9e7f5;
+  --text-main: #374151;
+  --text-sub: #6b7280;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      background: radial-gradient(circle at top, #f3e8ff, var(--bg));
-      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      display: flex;
-      justify-content: center;
-      color: var(--text-main);
-    }
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #f3e8ff, var(--bg));
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  color: var(--text-main);
+}
 
-    .app {
-      max-width: 720px;
-      width: 100%;
-      background: var(--card);
-      padding: 32px 24px 40px;
-      border-radius: 32px;
-      margin: 20px;
-      box-shadow:
-        0 20px 40px rgba(139, 124, 246, 0.12),
-        0 2px 8px rgba(0, 0, 0, 0.04);
-      animation: fadeUp 0.6s ease;
-    }
+.app {
+  max-width: 720px;
+  width: 100%;
+  background: var(--card);
+  padding: 32px 24px 40px;
+  border-radius: 32px;
+  margin: 20px;
+  box-shadow:
+    0 20px 40px rgba(139,124,246,0.12),
+    0 2px 8px rgba(0,0,0,0.04);
+  animation: fadeUp 0.6s ease;
+}
 
-    /* Header */
-    h1 {
-      margin: 0;
-      font-size: 26px;
-      font-weight: 700;
-    }
+/* Header */
+h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
 
-    .subtitle {
-      color: var(--text-sub);
-      margin: 8px 0 28px;
-      font-size: 14px;
-    }
+.subtitle {
+  color: var(--text-sub);
+  margin: 8px 0 28px;
+  font-size: 14px;
+}
 
-    /* Input fields */
-    .field {
-      margin-bottom: 22px;
-    }
+/* Fields */
+.field { margin-bottom: 22px; }
 
-    .field label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
 
-    textarea {
-      width: 100%;
-      min-height: 96px;
-      padding: 18px;
-      border-radius: 22px;
-      border: 1px solid var(--border);
-      background: #faf9ff;
-      font-size: 15px;
-      resize: vertical;
-      transition: all 0.2s ease;
-    }
+textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: #faf9ff;
+  font-size: 15px;
+  resize: vertical;
+  transition: all 0.2s ease;
+}
 
-    textarea::placeholder {
-      color: #9ca3af;
-    }
+textarea::placeholder { color: #9ca3af; }
 
-    textarea:focus {
-      outline: none;
-      background: #fff;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(139, 124, 246, 0.18);
-    }
+textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(139,124,246,0.18);
+}
 
-    /* Button */
-    button {
-      width: 100%;
-      padding: 18px;
-      margin-top: 6px;
-      border-radius: 999px;
-      border: none;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      background: linear-gradient(90deg, #a78bfa, #7c6ff0);
-      color: #fff;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 10px 26px rgba(139, 124, 246, 0.35);
-    }
+/* Button */
+button {
+  width: 100%;
+  padding: 18px;
+  border-radius: 999px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, #a78bfa, #7c6ff0);
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(139,124,246,0.35);
+  transition: transform 0.15s ease;
+}
 
-    button:active {
-      transform: scale(0.96);
-    }
+button:active { transform: scale(0.96); }
 
-    .helper {
-      font-size: 13px;
-      color: var(--text-sub);
-      margin-top: 12px;
-      text-align: center;
-    }
+.helper {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 12px;
+  text-align: center;
+}
 
-    /* Terminal */
-    .terminal {
-      margin-top: 36px;
-      background: linear-gradient(180deg, #0f172a, #020617);
-      color: #d1d5db;
-      border-radius: 22px;
-      padding: 20px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 13px;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-        0 20px 40px rgba(15, 23, 42, 0.35);
-      animation: fadeUp 0.8s ease;
-    }
+/* Gmail fallback */
+.open-gmail {
+  display: none;
+  margin-top: 14px;
+  text-align: center;
+}
 
-    .terminal-header {
-      color: #9ca3af;
-      margin-bottom: 16px;
-    }
+.open-gmail a {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: #5b4ee5;
+  font-weight: 600;
+  text-decoration: none;
+}
 
-    .cmd {
-      background: linear-gradient(180deg, #111827, #0b1220);
-      border: 1px solid #1f2937;
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
+/* Terminal */
+.terminal {
+  margin-top: 40px;
+  background: linear-gradient(180deg, #0f172a, #020617);
+  color: #d1d5db;
+  border-radius: 22px;
+  padding: 20px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 20px 40px rgba(15,23,42,0.35);
+}
 
-    .cmd:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(139, 124, 246, 0.35);
-    }
+.terminal-header {
+  color: #9ca3af;
+  margin-bottom: 16px;
+}
 
-    .cmd-title {
-      color: #a78bfa;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
+.cmd {
+  background: linear-gradient(180deg, #111827, #0b1220);
+  border: 1px solid #1f2937;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-    /* Animation */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
+.cmd:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(139,124,246,0.35);
+}
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+.cmd-title {
+  color: #a78bfa;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* Animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
 </head>
 
 <body>
-  <div class="app">
-    <h1>✨ Nightly Reflection</h1>
-    <div class="subtitle">1 minute before sleep. Quiet, private, yours.</div>
+<div class="app">
+  <h1>✨ Nightly Reflection</h1>
+  <div class="subtitle">1 minute before sleep. Quiet, private, yours.</div>
 
-    <div class="field">
-      <label>Today’s highlight</label>
-      <textarea id="highlight" placeholder="One small win is enough…"></textarea>
-    </div>
-
-    <div class="field">
-      <label>Today’s block</label>
-      <textarea id="block" placeholder="What felt heavy or stuck today?"></textarea>
-    </div>
-
-    <div class="field">
-      <label>Tomorrow’s small action</label>
-      <textarea id="action" placeholder="Something gentle, realistic, doable"></textarea>
-    </div>
-
-    <button onclick="sendEmail()">Record & Send (Gmail)</button>
-    <div class="helper" id="status"></div>
-
-    <div class="terminal">
-      <div class="terminal-header">
-        $ reflection summarize --source=gmail --target=gemini
-      </div>
-
-      <div class="cmd" onclick="copyPrompt('7d')">
-        <div class="cmd-title">▶ 7 Days Summary</div>
-        Calm insight · handles sparse data
-      </div>
-
-      <div class="cmd" onclick="copyPrompt('1m')">
-        <div class="cmd-title">▶ 1 Month Summary</div>
-        Pattern review · habit signals
-      </div>
-
-      <div class="cmd" onclick="copyPrompt('ytd')">
-        <div class="cmd-title">▶ Year to Date Summary</div>
-        Long-term narrative · strategy
-      </div>
-    </div>
+  <div class="field">
+    <label>Today’s highlight</label>
+    <textarea id="highlight" placeholder="One small win is enough…"></textarea>
   </div>
 
-  <script>
-    function sendEmail() {
-      const h = highlight.value.trim();
-      const b = block.value.trim();
-      const a = action.value.trim();
-      if (!h && !b && !a) {
-        alert("Write at least one gentle thought 🌙");
-        return;
-      }
+  <div class="field">
+    <label>Today’s block</label>
+    <textarea id="block" placeholder="What felt heavy or stuck today?"></textarea>
+  </div>
 
-      const date = new Date().toISOString().slice(0, 10);
-      const subject = `🌙 Nightly Reflection — ${date}`;
-      const body =
-        `Date: ${date}
+  <div class="field">
+    <label>Tomorrow’s small action</label>
+    <textarea id="action" placeholder="Something gentle, realistic, doable"></textarea>
+  </div>
+
+  <button onclick="sendEmail()">Record & Send</button>
+  <div class="helper" id="status"></div>
+
+  <!-- iOS manual Gmail fallback -->
+  <div class="open-gmail" id="openGmail">
+    <a id="gmailLink" href="#">Open Gmail to Send ✉️</a>
+  </div>
+
+  <!-- Gemini Terminal -->
+  <div class="terminal">
+    <div class="terminal-header">
+      $ reflection summarize --source=gmail --target=gemini
+    </div>
+
+    <div class="cmd" onclick="copyPrompt('7d')">
+      <div class="cmd-title">▶ 7 Days Summary</div>
+      Calm insight · handles sparse data
+    </div>
+
+    <div class="cmd" onclick="copyPrompt('1m')">
+      <div class="cmd-title">▶ 1 Month Summary</div>
+      Pattern review · habit signals
+    </div>
+
+    <div class="cmd" onclick="copyPrompt('ytd')">
+      <div class="cmd-title">▶ Year to Date Summary</div>
+      Long-term narrative · strategy
+    </div>
+  </div>
+</div>
+
+<script>
+function sendEmail() {
+  const h = highlight.value.trim();
+  const b = block.value.trim();
+  const a = action.value.trim();
+  if (!h && !b && !a) {
+    alert("Write at least one gentle thought 🌙");
+    return;
+  }
+
+  const date = new Date().toISOString().slice(0,10);
+  const subject = `🌙 Nightly Reflection — ${date}`;
+  const body =
+`Date: ${date}
 
 Highlight:
 ${h || "—"}
@@ -246,35 +252,43 @@ ${b || "—"}
 Action:
 ${a || "—"}`;
 
-      const gmailUrl =
-        "https://mail.google.com/mail/?view=cm&fs=1" +
-        `&to=${encodeURIComponent("eekaishen+reflection@gmail.com")}` +
-        `&su=${encodeURIComponent(subject)}` +
-        `&body=${encodeURIComponent(body)}`;
+  const gmailUrl =
+    "https://mail.google.com/mail/?view=cm&fs=1" +
+    `&to=${encodeURIComponent("eekaishen+reflection@gmail.com")}` +
+    `&su=${encodeURIComponent(subject)}` +
+    `&body=${encodeURIComponent(body)}`;
 
-      window.location.href = gmailUrl;
-      status.textContent = "Saved ✨ Take a breath, then send when ready 🌙";
-    }
+  // Best-effort auto open
+  window.location.href = gmailUrl;
 
-    function copyPrompt(mode) {
-      let range, title, role;
+  // iOS PWA fallback
+  const link = document.getElementById("gmailLink");
+  link.href = gmailUrl;
+  document.getElementById("openGmail").style.display = "block";
 
-      if (mode === "7d") {
-        range = "from:(TODAY-7DAYS) to:(TODAY)";
-        title = "7 Day Insight";
-        role = "calm, practical reflection coach";
-      } else if (mode === "1m") {
-        range = "from:(TODAY-1MONTH) to:(TODAY)";
-        title = "Monthly Review";
-        role = "structured life review partner";
-      } else {
-        range = "from:(START_OF_YEAR) to:(TODAY)";
-        title = "Year to Date Analysis";
-        role = "long-term personal growth analyst";
-      }
+  status.textContent =
+    "Saved ✨ If Gmail didn’t open, tap below to send 🌙";
+}
 
-      const prompt =
-        `Title: Nightly Reflection — ${title}
+function copyPrompt(mode) {
+  let range, title, role;
+
+  if (mode === "7d") {
+    range = "from:(TODAY-7DAYS) to:(TODAY)";
+    title = "7 Day Insight";
+    role = "calm, practical reflection coach";
+  } else if (mode === "1m") {
+    range = "from:(TODAY-1MONTH) to:(TODAY)";
+    title = "Monthly Review";
+    role = "structured life review partner";
+  } else {
+    range = "from:(START_OF_YEAR) to:(TODAY)";
+    title = "Year to Date Analysis";
+    role = "long-term personal growth analyst";
+  }
+
+  const prompt =
+`Title: Nightly Reflection — ${title}
 
 Search @gmail with:
 to:eekaishen+reflection@gmail.com
@@ -288,10 +302,9 @@ Give me:
 3. Emotional trend
 4. One practical recommendation`;
 
-      navigator.clipboard.writeText(prompt);
-      alert("Prompt copied ✨ Paste into Gemini");
-    }
-  </script>
+  navigator.clipboard.writeText(prompt);
+  alert("Prompt copied ✨ Paste into Gemini");
+}
+</script>
 </body>
-
 </html>
