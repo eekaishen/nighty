@@ -37,28 +37,13 @@ body {
   padding: 32px 24px 40px;
   border-radius: 32px;
   margin: 20px;
-  box-shadow:
-    0 20px 40px rgba(139,124,246,0.12),
-    0 2px 8px rgba(0,0,0,0.04);
-  animation: fadeUp 0.6s ease;
+  box-shadow: 0 20px 40px rgba(139,124,246,0.12);
 }
 
-/* Header */
-h1 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 700;
-}
+h1 { margin: 0; font-size: 26px; }
+.subtitle { color: var(--text-sub); margin: 8px 0 28px; font-size: 14px; }
 
-.subtitle {
-  color: var(--text-sub);
-  margin: 8px 0 28px;
-  font-size: 14px;
-}
-
-/* Fields */
 .field { margin-bottom: 22px; }
-
 .field label {
   display: block;
   font-size: 14px;
@@ -74,20 +59,8 @@ textarea {
   border: 1px solid var(--border);
   background: #faf9ff;
   font-size: 15px;
-  resize: vertical;
-  transition: all 0.2s ease;
 }
 
-textarea::placeholder { color: #9ca3af; }
-
-textarea:focus {
-  outline: none;
-  background: #fff;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(139,124,246,0.18);
-}
-
-/* Button */
 button {
   width: 100%;
   padding: 18px;
@@ -99,7 +72,6 @@ button {
   background: linear-gradient(90deg, #a78bfa, #7c6ff0);
   color: #fff;
   box-shadow: 0 10px 26px rgba(139,124,246,0.35);
-  transition: transform 0.15s ease;
 }
 
 button:active { transform: scale(0.96); }
@@ -111,23 +83,6 @@ button:active { transform: scale(0.96); }
   text-align: center;
 }
 
-/* Gmail fallback */
-.open-gmail {
-  display: none;
-  margin-top: 14px;
-  text-align: center;
-}
-
-.open-gmail a {
-  display: inline-block;
-  padding: 12px 20px;
-  border-radius: 999px;
-  background: var(--primary-soft);
-  color: #5b4ee5;
-  font-weight: 600;
-  text-decoration: none;
-}
-
 /* Terminal */
 .terminal {
   margin-top: 40px;
@@ -137,9 +92,6 @@ button:active { transform: scale(0.96); }
   padding: 20px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 13px;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.05),
-    0 20px 40px rgba(15,23,42,0.35);
 }
 
 .terminal-header {
@@ -154,12 +106,6 @@ button:active { transform: scale(0.96); }
   padding: 16px;
   margin-bottom: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.cmd:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(139,124,246,0.35);
 }
 
 .cmd-title {
@@ -167,12 +113,6 @@ button:active { transform: scale(0.96); }
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
-}
-
-/* Animation */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -184,28 +124,23 @@ button:active { transform: scale(0.96); }
 
   <div class="field">
     <label>Today’s highlight</label>
-    <textarea id="highlight" placeholder="One small win is enough…"></textarea>
+    <textarea id="highlight"></textarea>
   </div>
 
   <div class="field">
     <label>Today’s block</label>
-    <textarea id="block" placeholder="What felt heavy or stuck today?"></textarea>
+    <textarea id="block"></textarea>
   </div>
 
   <div class="field">
     <label>Tomorrow’s small action</label>
-    <textarea id="action" placeholder="Something gentle, realistic, doable"></textarea>
+    <textarea id="action"></textarea>
   </div>
 
-  <button onclick="sendEmail()">Record & Send</button>
+  <button onclick="send()">Record & Send</button>
   <div class="helper" id="status"></div>
 
-  <!-- iOS manual Gmail fallback -->
-  <div class="open-gmail" id="openGmail">
-    <a id="gmailLink" href="#">Open Gmail to Send ✉️</a>
-  </div>
-
-  <!-- Gemini Terminal -->
+  <!-- Gemini Prompt Terminal -->
   <div class="terminal">
     <div class="terminal-header">
       $ reflection summarize --source=gmail --target=gemini
@@ -229,10 +164,13 @@ button:active { transform: scale(0.96); }
 </div>
 
 <script>
-function sendEmail() {
+const STORAGE_KEY = "nightly_draft";
+
+function send() {
   const h = highlight.value.trim();
   const b = block.value.trim();
   const a = action.value.trim();
+
   if (!h && !b && !a) {
     alert("Write at least one gentle thought 🌙");
     return;
@@ -252,22 +190,32 @@ ${b || "—"}
 Action:
 ${a || "—"}`;
 
+  // Always save locally first
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({ date, subject, body })
+  );
+
+  // iOS Shortcuts URL
+  const shortcutUrl =
+    "shortcuts://run-shortcut" +
+    "?name=Send%20Nightly%20Reflection" +
+    "&input=text" +
+    "&text=" + encodeURIComponent(subject + "\n\n" + body);
+
+  // Desktop fallback (Gmail)
   const gmailUrl =
     "https://mail.google.com/mail/?view=cm&fs=1" +
-    `&to=${encodeURIComponent("eekaishen+reflection@gmail.com")}` +
-    `&su=${encodeURIComponent(subject)}` +
-    `&body=${encodeURIComponent(body)}`;
+    "&to=" + encodeURIComponent("eekaishen+reflection@gmail.com") +
+    "&su=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(body);
 
-  // Best-effort auto open
-  window.location.href = gmailUrl;
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
 
-  // iOS PWA fallback
-  const link = document.getElementById("gmailLink");
-  link.href = gmailUrl;
-  document.getElementById("openGmail").style.display = "block";
+  window.location.href = isIOS ? shortcutUrl : gmailUrl;
 
   status.textContent =
-    "Saved ✨ If Gmail didn’t open, tap below to send 🌙";
+    "Saved ✨ Sending via system automation.";
 }
 
 function copyPrompt(mode) {
